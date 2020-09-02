@@ -8,10 +8,10 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 @SpringBootApplication
 @EnableAutoConfiguration
-public class MetroAppApplication {
+public class MetroApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(MetroAppApplication.class, args);
+        SpringApplication.run(MetroApplication.class, args);
     }
 
 }
