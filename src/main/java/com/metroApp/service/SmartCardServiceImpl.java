@@ -4,7 +4,6 @@ import com.metroApp.config.Configurations;
 import com.metroApp.model.Journey;
 import com.metroApp.model.Metro;
 import com.metroApp.model.SmartCard;
-import com.metroApp.model.Station;
 import com.metroApp.repository.SmartCardRepository;
 import com.metroApp.utils.MetroUtility;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
@@ -32,11 +32,11 @@ public class SmartCardServiceImpl implements SmartCardService {
     @Override
     public void deductBalance(SmartCard smartCard, Journey journey) {
 
-        if(isBalanceSufficientForJourney(smartCard,journey)) {
+
             AtomicInteger totalFare = new AtomicInteger(0);
             getTotalFare(journey, totalFare);
             smartCard.setBalance(smartCard.getBalance() - totalFare.get());
-        }
+
     }
 
     @Override
@@ -66,15 +66,16 @@ public class SmartCardServiceImpl implements SmartCardService {
     }
 
     private void getTotalFare(Journey journey, AtomicInteger totalFare) {
+        AtomicBoolean found = new AtomicBoolean(false);
         metro.getStations().forEach(station -> {
-            boolean found = false;
+
             if (station.getStation().equals(journey.getStartStation())) {
-                found = true;
+                found.set(true);
             }
-            int newValue = found ? totalFare.get() + 1 : totalFare.get();
+            int newValue = found.get() ? totalFare.get() + configurations.getFareIncrementStrategy() : totalFare.get();
             totalFare.set(newValue);
-            if (found && station.getStation().equals(journey.getEndStation())) {
-                found = false;
+            if (found.get() && station.getStation().equals(journey.getEndStation())) {
+                found.set(false);
             }
 
 
