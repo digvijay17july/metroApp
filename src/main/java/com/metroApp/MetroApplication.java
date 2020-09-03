@@ -53,40 +53,51 @@ public class MetroApplication {
     public static void main(String[] args) throws Exception {
         MetroApplication metroApplication = new MetroApplication();
         metroApplication.init(10);
+        boolean exit=false;
 
-        Scanner  scanner = new Scanner(System.in);
+        while (!exit) {
+            Scanner scanner = new Scanner(System.in);
 
-        System.out.println("############## CHOOSE THE SMART CARD TO TRAVEL #############");
-        metroApplication.smartCards.stream().forEach(smartCard -> {
-            System.out.println("ID : "+smartCard.getId());
-        });
-        System.out.println("############################################################");
+            System.out.println("############## CHOOSE THE SMART CARD TO TRAVEL #############");
+            metroApplication.smartCards.stream().forEach(smartCard -> {
+                System.out.println("ID : " + smartCard.getId());
+            });
+            System.out.println("############################################################");
 
-        System.out.println("\n############################################################");
-        System.out.println("Enter the Smart Card Id to travel");
+            System.out.println("\n############################################################");
+            System.out.println("Enter the Smart Card Id to travel");
 
-        String id = scanner.nextLine();
-        System.out.println("\n############################################################");
+            String id = scanner.nextLine();
+            System.out.println("\n############################################################");
 
-        System.out.println("Enter the Start Station travel");
+            System.out.println("Enter the Start Station travel");
 
-        String startStation = scanner.nextLine();
+            String startStation = scanner.nextLine();
 
-        System.out.println("\n############################################################");
+            System.out.println("\n############################################################");
 
-        System.out.println("Enter the End Station travel");
+            System.out.println("Enter the End Station travel");
 
-        String endStation = scanner.nextLine();
+            String endStation = scanner.nextLine();
 
-        System.out.println("\n############################################################");
+            System.out.println("\n############################################################");
 
-        Journey journey=new Journey();
-        journey.setSmartCardId(UUID.fromString(id));
-        journey.setEndStation(StationName.valueOf(endStation));
-        journey.setStartStation(StationName.valueOf(startStation));
-        SmartCard smartCard=metroApplication.smartCardManager.getSmartCard(journey.getSmartCardId(),metroApplication.smartCards);
-        metroApplication.smartCardService.deductBalance(smartCard,journey);
-        System.out.println(smartCard);
+            Journey journey = new Journey();
+            journey.setSmartCardId(UUID.fromString(id));
+            journey.setEndStation(StationName.valueOf(endStation));
+            journey.setStartStation(StationName.valueOf(startStation));
+            SmartCard smartCard = metroApplication.smartCardManager.getSmartCard(journey.getSmartCardId(), metroApplication.smartCards);
+            metroApplication.smartCardService.deductBalance(smartCard, journey);
+            System.out.println(smartCard);
+
+            System.out.println("\n############################################################");
+
+            System.out.println("Do you want to continue(y/n)?");
+
+            exit =scanner.nextLine().equalsIgnoreCase("y")?false:true;
+
+            System.out.println("\n############################################################");
+        }
     }
 
 }
