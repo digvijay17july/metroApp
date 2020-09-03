@@ -9,6 +9,7 @@ import com.metroApp.utils.MetroUtility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -33,10 +34,12 @@ public class SmartCardServiceImpl implements SmartCardService {
     public void deductBalance(SmartCard smartCard, Journey journey) {
 
 
-            AtomicInteger totalFare = new AtomicInteger(0);
-            getTotalFare(journey, totalFare);
-            smartCard.setBalance(smartCard.getBalance() - totalFare.get());
-
+        AtomicInteger totalFare = new AtomicInteger(0);
+        getTotalFare(journey, totalFare);
+        smartCard.setBalance(smartCard.getBalance() - totalFare.get());
+        smartCard.setCurrentJourney(journey);
+        smartCard.getTravelHistory().add(journey);
+        smartCardRepository.save(smartCard);
     }
 
     @Override
@@ -57,7 +60,7 @@ public class SmartCardServiceImpl implements SmartCardService {
         } else {
             AtomicInteger totalFare = new AtomicInteger(0);
             getTotalFare(journey, totalFare);
-            if ((smartCard.getBalance()-totalFare.get()) <= 0) {
+            if ((smartCard.getBalance() - totalFare.get()) <= 0) {
                 return false;
             } else
                 return true;
@@ -68,12 +71,11 @@ public class SmartCardServiceImpl implements SmartCardService {
     private void getTotalFare(Journey journey, AtomicInteger totalFare) {
         AtomicBoolean found = new AtomicBoolean(false);
         metro.getStations().forEach(station -> {
-
+            int newValue = found.get() ? totalFare.get() + configurations.getFareIncrementStrategy() : totalFare.get();
+            totalFare.set(newValue);
             if (station.getStation().equals(journey.getStartStation())) {
                 found.set(true);
             }
-            int newValue = found.get() ? totalFare.get() + configurations.getFareIncrementStrategy() : totalFare.get();
-            totalFare.set(newValue);
             if (found.get() && station.getStation().equals(journey.getEndStation())) {
                 found.set(false);
             }
@@ -92,6 +94,7 @@ public class SmartCardServiceImpl implements SmartCardService {
         if (smartCard.getCustomerName() != null && smartCard.getCustomerAddress() != null) {
             smartCard.setId(metroUtility.getRandomId());
             smartCard.setBalance(configurations.getDefaultBalance());
+            smartCard.setTravelHistory(new ArrayList<>());
             smartCard = smartCardRepository.save(smartCard);
             return smartCard;
         } else {

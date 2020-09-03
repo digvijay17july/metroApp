@@ -20,7 +20,7 @@ public class SmartCard {
     private float customerAge;
     private String customerAddress;
     private int balance;
-    private List<List<Station>> travelHistory;
+    private List<Journey> travelHistory;
     private Journey currentJourney;
 
     public String getCustomerName() {
@@ -71,11 +71,11 @@ public class SmartCard {
         this.balance = balance;
     }
 
-    public List<List<Station>> getTravelHistory() {
+    public List<Journey> getTravelHistory() {
         return travelHistory;
     }
 
-    public void setTravelHistory(List<List<Station>> travelHistory) {
+    public void setTravelHistory(List<Journey> travelHistory) {
         this.travelHistory = travelHistory;
     }
 }
