@@ -4,6 +4,7 @@ import com.metroApp.config.Configurations;
 import com.metroApp.model.Journey;
 import com.metroApp.model.Metro;
 import com.metroApp.model.SmartCard;
+import com.metroApp.repository.JourneyRepository;
 import com.metroApp.repository.SmartCardRepository;
 import com.metroApp.utils.MetroUtility;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,8 @@ public class SmartCardServiceImpl implements SmartCardService {
     private SmartCardRepository smartCardRepository;
 
     @Autowired
+    private JourneyRepository journeyRepository;
+    @Autowired
     private MetroUtility metroUtility;
 
     @Autowired
@@ -35,6 +38,8 @@ public class SmartCardServiceImpl implements SmartCardService {
 
 
         AtomicInteger totalFare = new AtomicInteger(0);
+        journey.setId(metroUtility.getRandomId());
+        journeyRepository.save(journey);
         getTotalFare(journey, totalFare);
         smartCard.setBalance(smartCard.getBalance() - totalFare.get());
         smartCard.setCurrentJourney(journey);

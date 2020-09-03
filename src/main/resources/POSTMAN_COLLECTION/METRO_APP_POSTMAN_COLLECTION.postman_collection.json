@@ -1,0 +1,96 @@
+{
+	"info": {
+		"_postman_id": "ce6db6a0-9f30-4376-be62-449f5d0909c3",
+		"name": "METRO_APP_POSTMAN_COLLECTION",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "CREATE_NEW_SMARTCARD",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"customerName\":\"DJ\",\r\n    \"customerAddress\":\"gzb\"\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/smartCard/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"smartCard",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET_SMARTCARD_INFO",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/smartCard/1932604a-8585-44ab-8ffe-858fffea7a32",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"smartCard",
+						"1932604a-8585-44ab-8ffe-858fffea7a32"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CREATE_JOURNEY_FOR_SMARTCARD",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"startStation\":\"A1\",\r\n    \"endStation\":\"A4\",\r\n    \"smartCardId\":\"9704bdd2-9c2d-4499-b4ff-c5046f885311\"\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/metro/travel",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"metro",
+						"travel"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
