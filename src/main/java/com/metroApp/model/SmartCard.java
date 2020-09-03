@@ -1,21 +1,17 @@
 package com.metroApp.model;
 
-import com.metroApp.constants.StationName;
+
 
 import java.util.List;
 import java.util.UUID;
 
 
-import com.sun.istack.internal.NotNull;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document("SmartCard")
 public class SmartCard {
 
-    @Id
+
     private UUID id;
-    @NotNull
+
     private String customerName;
     private float customerAge;
     private String customerAddress;
@@ -23,11 +19,12 @@ public class SmartCard {
     private List<Journey> travelHistory;
     private Journey currentJourney;
 
+
     public String getCustomerName() {
         return customerName;
     }
 
-    public void setCustomerName(@NotNull String customerName) {
+    public void setCustomerName( String customerName) {
         this.customerName = customerName;
     }
 
@@ -77,5 +74,18 @@ public class SmartCard {
 
     public void setTravelHistory(List<Journey> travelHistory) {
         this.travelHistory = travelHistory;
+    }
+
+    @Override
+    public String toString() {
+        return "SmartCard: {" +
+                "\n id=" + id +
+                ",\n customerName='" + customerName + '\'' +
+                ",\n customerAge=" + customerAge +
+                ",\n customerAddress='" + customerAddress + '\'' +
+                ",\n balance=" + balance +
+                ",\n travelHistory=" + travelHistory.toString() +
+                ",\n currentJourney=" + currentJourney.toString() +
+                "\n}";
     }
 }

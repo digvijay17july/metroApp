@@ -1,6 +1,0 @@
-fareIncrementStrategy: 2
-defaultBalance: 50
-minBalance: 10
-server:
-  servlet:
-    context-path: "/api"

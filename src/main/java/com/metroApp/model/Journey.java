@@ -7,9 +7,9 @@ import java.util.UUID;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document("journey")
+
 public class Journey {
-    @Id
+
     private UUID id;
     private StationName startStation;
     private StationName endStation;
@@ -45,5 +45,10 @@ public class Journey {
 
     public void setSmartCardId(UUID smartCardId) {
         this.smartCardId = smartCardId;
+    }
+
+    @Override
+    public String toString() {
+        return "{"+startStation +" To "+ endStation+"}" ;
     }
 }

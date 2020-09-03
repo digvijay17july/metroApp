@@ -1,46 +1,39 @@
 package com.metroApp.config;
 
-import com.metroApp.model.Metro;
-import org.springframework.beans.factory.config.ConfigurableBeanFactory;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Scope;
 
-@Configuration
-@EnableConfigurationProperties
-@ConfigurationProperties
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Date;
+import java.util.Properties;
+
 public class Configurations {
-    private int fareIncrementStrategy;
-    private int defaultBalance;
-    private int minBalance;
+    String result = "";
+    InputStream inputStream;
+    Properties prop ;
+    String propFileName = "config.properties";
+    public Configurations() throws IOException {
+        {
 
-    public int getMinBalance() {
-        return minBalance;
+            try {
+                this.prop = new Properties();
+                this.inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
+                if (this.inputStream != null) {
+                    this.prop.load(this.inputStream);
+                } else {
+                    throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
+                }
+
+            } catch (Exception e) {
+                System.out.println("Exception: " + e);
+            } finally {
+                this.inputStream.close();
+            }
+
+        }
     }
 
-    public void setFareIncrementStrategy(int fareIncrementStrategy) {
-        this.fareIncrementStrategy = fareIncrementStrategy;
+    public String getPropValue(String name) throws IOException {
+       return  this.prop.getProperty(name);
     }
-
-    public void setDefaultBalance(int defaultBalance) {
-        this.defaultBalance = defaultBalance;
-    }
-
-    public void setMinBalance(int minBalance) {
-        this.minBalance = minBalance;
-    }
-
-    public int getDefaultBalance() {
-        return defaultBalance;
-    }
-
-
-    public int getFareIncrementStrategy() {
-        return fareIncrementStrategy;
-    }
-
-
-
 }

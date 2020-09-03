@@ -2,14 +2,12 @@ package com.metroApp.model;
 
 import com.metroApp.constants.StationName;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.UUID;
 
-@Document("station")
+
 public class Station {
-    @Id
+
     private UUID id;
     private StationName station;
     private int cost;
